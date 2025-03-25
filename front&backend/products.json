@@ -1,0 +1,119 @@
+[
+    {
+      "_id":"610201",
+      "name": "accent chair",
+      "brand": "nike",
+      "price": 50,
+      "sizes": [42, 43, 46],
+      "stock": 120,
+      "images": [""]
+    },
+    {
+    "_id":"610200",
+      "name": "modern sofa",
+      "brand": "ikea",
+      "price": 300,
+      "sizes": [38, 40, 42],
+      "stock": 50,
+      "images": [""]
+    },
+    {
+        "_id":"610202",
+      "name": "wooden dining table",
+      "brand": "ashley",
+      "price": 200,
+      "sizes": [60, 72, 84],
+      "stock": 30,
+      "images": [""]
+    },
+    {
+        "_id":"610203",
+      "name": "leather recliner",
+      "brand": "lazyboy",
+      "price": 150,
+      "sizes": [36, 38, 40],
+      "stock": 70,
+      "images": [""]
+    },
+    {
+        "_id":"610204",
+      "name": "glass coffee table",
+      "brand": "west elm",
+      "price": 120,
+      "sizes": [40, 44, 48],
+      "stock": 90,
+      "images": [""]
+    },
+    {
+        "_id":"610205",
+      "name": "queen bed frame",
+      "brand": "ikea",
+      "price": 180,
+      "sizes": [60, 80, 100],
+      "stock": 40,
+      "images": [""]
+    },
+    {
+        "_id":"610206",
+      "name": "office desk",
+      "brand": "staples",
+      "price": 100,
+      "sizes": [48, 60, 72],
+      "stock": 60,
+      "images": [""]
+    },
+    {
+        "_id":"610207", 
+      "name": "bookshelf",
+      "brand": "target",
+      "price": 80,
+      "sizes": [30, 36, 42],
+      "stock": 110,
+      "images": [""]
+    },
+    {
+        "_id":"610208",
+      "name": "outdoor patio set",
+      "brand": "home depot",
+      "price": 250,
+      "sizes": [60, 72, 84],
+      "stock": 20,
+      "images": [""]
+    },
+    {
+        "_id":"610209",
+      "name": "kitchen island",
+      "brand": "wayfair",
+      "price": 220,
+      "sizes": [48, 60, 72],
+      "stock": 35,
+      "images": [""]
+    },
+    {
+        "_id":"610210",
+      "name": "bar stool",
+      "brand": "cb2",
+      "price": 60,
+      "sizes": [24, 28, 32],
+      "stock": 80,
+      "images": [""]
+    },
+    {
+        "_id":"610211",
+      "name": "sectional sofa",
+      "brand": "crate & barrel",
+      "price": 400,
+      "sizes": [80, 90, 100],
+      "stock": 25,
+      "images": [""]
+    },
+    {
+        "_id":"610212",
+      "name": "tv stand",
+      "brand": "best buy",
+      "price": 140,
+      "sizes": [50, 60, 70],
+      "stock": 45,
+      "images": [""]
+    }
+]

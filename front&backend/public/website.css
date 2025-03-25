@@ -1,0 +1,72 @@
+body{
+    color: rgb(0, 0, 0);
+    font-family:"Nunito", serif;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.full-grid{
+    display: flex;
+    margin: 20px 0 0 0;
+}
+
+p,h2{
+    display: inline;
+}
+.items-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    height: 100%;
+    width: 100%;
+    gap: 20px;
+    position: relative;
+}
+
+.items-grid .single-item h2
+{
+    color:rgb(66, 92, 68);
+    font-weight: 100;
+}
+
+.single-item{
+    padding: 10px;
+    width: 200px;
+    border: 2px black solid;
+    overflow:  hidden;
+    white-space: nowrap;
+    
+}
+
+.main_image{
+    width: 100%;
+}
+
+
+/*  PAGINATION BUTTONS //////////////////////*/
+
+.number-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 70px 0 30px 0;
+    gap:20px;
+}
+
+.pagination-button{
+    font-size: 1.2rem;
+    padding: 6px;
+    border-radius: 15px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.pagination-button:hover
+{
+    border-color: rgb(196, 160, 160);
+    color: rgb(156, 126, 126);
+    transition: border-color 0.3s ease, color 0.3s ease
+}
