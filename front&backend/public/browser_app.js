@@ -202,3 +202,23 @@ const pageTransition = async() =>{
         })
     })
 }
+
+
+////// FILTER ARROW ANIMATION//////////////////////////
+
+
+// const filter = document.querySelectorAll('.filter-name')
+// filter.forEach( item => {
+//     item.addEventListener('mouseenter',()=>{
+//         item.classList.add('arrow-filter')
+//         const arrowElement = document.createElement('p'); 
+//         arrowElement.innerHTML = '&#10095;'; 
+//         arrowElement.classList.add('arrow-element'); 
+//         item.appendChild(arrowElement); 
+//     })
+//     item.addEventListener('mouseleave',()=>{
+//         item.classList.remove('arrow-filter')
+//         const arrowElement = item.querySelector('.arrow-element')
+//         item.removeChild(arrowElement)
+//     })
+// })
