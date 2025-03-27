@@ -1,3 +1,7 @@
 script_source.html
 page_source.html
 preloaded_state.json
+package.json
+package-lock.json
+products.json
+.env

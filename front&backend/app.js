@@ -5,7 +5,6 @@ const app = express()
 /////////////////////////////////////
 const notFound = require('./middleware/route-not-found')
 
-
 app.use(express.static('./public'))
 app.use(express.json())
 
