@@ -1,6 +1,5 @@
 [
     {
-      "_id":"610201",
       "name": "accent chair",
       "brand": "nike",
       "price": 50,
@@ -9,7 +8,6 @@
       "images": [""]
     },
     {
-    "_id":"610200",
       "name": "modern sofa",
       "brand": "ikea",
       "price": 300,
@@ -18,7 +16,6 @@
       "images": [""]
     },
     {
-        "_id":"610202",
       "name": "wooden dining table",
       "brand": "ashley",
       "price": 200,
@@ -27,7 +24,6 @@
       "images": [""]
     },
     {
-        "_id":"610203",
       "name": "leather recliner",
       "brand": "lazyboy",
       "price": 150,
@@ -36,7 +32,6 @@
       "images": [""]
     },
     {
-        "_id":"610204",
       "name": "glass coffee table",
       "brand": "west elm",
       "price": 120,
@@ -45,7 +40,6 @@
       "images": [""]
     },
     {
-        "_id":"610205",
       "name": "queen bed frame",
       "brand": "ikea",
       "price": 180,
@@ -54,7 +48,6 @@
       "images": [""]
     },
     {
-        "_id":"610206",
       "name": "office desk",
       "brand": "staples",
       "price": 100,
@@ -63,7 +56,6 @@
       "images": [""]
     },
     {
-        "_id":"610207", 
       "name": "bookshelf",
       "brand": "target",
       "price": 80,
@@ -72,7 +64,6 @@
       "images": [""]
     },
     {
-        "_id":"610208",
       "name": "outdoor patio set",
       "brand": "home depot",
       "price": 250,
@@ -81,7 +72,6 @@
       "images": [""]
     },
     {
-        "_id":"610209",
       "name": "kitchen island",
       "brand": "wayfair",
       "price": 220,
@@ -90,7 +80,6 @@
       "images": [""]
     },
     {
-        "_id":"610210",
       "name": "bar stool",
       "brand": "cb2",
       "price": 60,
@@ -99,7 +88,6 @@
       "images": [""]
     },
     {
-        "_id":"610211",
       "name": "sectional sofa",
       "brand": "crate & barrel",
       "price": 400,
@@ -108,7 +96,6 @@
       "images": [""]
     },
     {
-        "_id":"610212",
       "name": "tv stand",
       "brand": "best buy",
       "price": 140,
