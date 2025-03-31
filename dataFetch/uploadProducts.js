@@ -3,8 +3,8 @@
 require('dotenv').config()
 const Product = require('../front&backend/models/schema')
 const connectDB = require('../front&backend/db/connect_database')
-const jsonProducts1 = require('./products.json')
-const jsonProducts2 = require('../front&backend/products.json')
+const jsonProducts = require('./products.json')
+const fs = require('fs')
 
 // connectDB(process.env.MONGO_URI)
 //     .then(()=> console.log('Connected to MongoDB'))
@@ -25,5 +25,7 @@ const populating = async()=> {
         return 
     }
 }
+
+
 
 populating()

@@ -1,74 +1,85 @@
 URL = "https://prm.com/ro/p/maison-mihara-yasuhiro-tenisi-ptsn-barbati-culoarea-negru-a13fw737-53693"
 from selenium import webdriver
+from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
+#from images import fetch_product_images
 import re
+import json
+import time
 
+def fetch_page_source(driver, url):
+    driver.get(url)
+    return driver.page_source
 
-def fetch_product_data(URL):
+def extract_images(soup):
+    json_scripts = soup.find_all("script", {"type": "application/ld+json"})
+    images = []
+    if len(json_scripts) >= 3:
+        script = json_scripts[2]
+        if script.string:
+            try:
+                json_data = json.loads(script.string)
+                if "image" in json_data and isinstance(json_data["image"], list):
+                    for image_obj in json_data["image"]:
+                        if (
+                            isinstance(image_obj, dict)
+                            and image_obj.get("@type") == "ImageObject"
+                            and "contentUrl" in image_obj
+                        ):
+                            images.append(image_obj["contentUrl"])
+            except json.JSONDecodeError as e:
+                print(f"Error decoding JSON in <script>: {e}")
+    return images
 
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration
-    chrome_options.add_argument("--no-sandbox")  # Bypass OS security model
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
-    chrome_options.add_argument("--disable-extensions")  # Disable extensions
-    chrome_options.add_argument("--disable-plugins")  # Disable plugins
-    
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get(URL)
-    #TREBUIE SA INVAT SI SA INTELEG CHESTIILE ASTEA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-    html = driver.page_source #in driver.page_source se afla codul sursa HTML
+def extract_product_data(html):
     soup = BeautifulSoup(html, "html.parser")
-    with open("page_source.html", "w", encoding="utf-8") as file: 
-        file.write(html)
-    with open("page_source.html", "r", encoding="utf-8") as file: 
-        script_content = file.read()
-
-    json_scripts = soup.find_all("script")
-
-    # with open("script_source.html", "w", encoding="utf-8") as file:
-    #     for script in soup.find_all("script"):  # Iterate through each <script> tag
-    #         if script.string:  # Only include scripts with content
-    #             file.write(str(script) + "\n\n")
-
-    # with open("script_source.html", "r", encoding="utf-8") as file:
-    #     script_content = file.read()
-    #FOLOSESTI LINIILE ASTEA DACA INCEPI SA PRIMESTI ERORI
-    
+    script_content = html
     preloaded_state_match = re.search(r'window\.__PRELOADED_STATE__\s*=\s*(\{.*\});', script_content, re.DOTALL)
 
     if preloaded_state_match:
         json_string = preloaded_state_match.group(1)
-        # Extract specific fields like "price" directly
         price_matches = re.search(r'"price":\s*([\d\.]+)', json_string)
         brand_matches = re.search(r'"brand":\s*"([^"]+)', json_string)
         names_matches = re.search(r'"title":\s*"([^"]+)', json_string)
-        #names_matches = re.findall(r'"title":\s*"([^"]+)', json_string) EXISTA SI "FINDALL"
 
-        final_price = price_matches[0]
-        final_brand = brand_matches[0]
-        final_name = names_matches[0].replace(final_brand,"").strip().split(",",1)[0].strip().title()
-        #final_name = item_name.replace(final_brand,"").strip().split(",",1)[0].strip().title()
+        final_price = float(price_matches.group(1)) if price_matches else None
+        final_brand = brand_matches.group(1).title() if brand_matches else None
+        final_name = names_matches.group(1).replace(final_brand, "").strip().split(",", 1)[0].strip().title() if names_matches and final_brand else None
 
-
-        final_price = float(final_price.split(":")[1].strip())
-        final_brand = final_brand.split(":")[1].strip('"').title()
-        final_name = final_name.split(":")[1].strip('"').replace(final_brand,"").strip(' ')
-
-        driver.quit()
         return {
-        "price": final_price,
-        "brand": final_brand,
-        "name": final_name
+            "price": final_price,
+            "brand": final_brand,
+            "name": final_name,
         }
-    else:
-        print(f"'Could not get the .window\.__PRELOADED_STATE__'{URL}")
+    return None
+
+def fetch_product_data(URL):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Chrome(options=chrome_options)
+
+    try:
+        html = fetch_page_source(driver, URL)
+        soup = BeautifulSoup(html, "html.parser")
+
+        # Use ThreadPoolExecutor to parallelize tasks
+        with ThreadPoolExecutor() as executor:
+            future_images = executor.submit(extract_images, soup)
+            future_data = executor.submit(extract_product_data, html)
+
+            images = future_images.result()
+            product_data = future_data.result()
+
+        product_data["images"] = images
+        return product_data
+    finally:
         driver.quit()
-        return None
 
 if __name__ == "__main__":
-    fetch_product_data(URL)
+    product_data = fetch_product_data(URL)
+    print(product_data)
