@@ -80,9 +80,15 @@ h2.item-favourite-name-box{
     height: 20px
 }
 
+.product-item {
+    width: 100%; /* Ensure grid items fill their column */
+    height: auto; /* Preserve aspect ratio for images */
+    overflow: hidden; /* Prevent overflowing content */
+}
+
 @media only screen and (max-width:1200px)
 {
     .items-grid{
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 }

@@ -20,11 +20,36 @@
 
     <div class="full-grid">
         <div class="filter-grid">
-            <div class="filter-name"><p>CATEGORY</p></div>
+
+            <div class="filter-name" onclick="toggleDropdown('filter-category')"><p >CATEGORY</p></div>
+            <div id="filter-category" class="filter-wrapper" style="display:none">Mamaie</div>
+            
             <div class="filter-name"><p>BRAND</p></div>
+            <div id="filter-brand" class="filter-wrapper"></div>
+
             <div class="filter-name"><p>COLOR</p></div>
+            <div id="filter-colour" class="filter-wrapper"></div>
+
             <div class="filter-name"><p>SIZE</p></div>
+            <div id="filter-size" class="filter-wrapper"></div>
+
             <div class="filter-name"><p>SALE</p></div>
+            <div id="filter-sale" class="filter-wrapper"></div>
+            
+            <div class="filter-name"><p>PRICE</p></div>
+            <div id="price-selector"></div>
+           
+
+            <select class="sortBy-select">
+                <option class="sortBy-option" value="release-date-asc">NEW IN</option>
+                <option class="sortBy-option" value="price-asc">LOW TO HIGH</option>
+                <option class="sortBy-option" value="price-desc">HIGH TO LOW</option>
+                <option class="sortBy-option" value="recommended">RECOMMENDED</option>
+            </select>
+        </div>
+
+        <div class="full-filter-grid">
+
         </div>
         <div class="items-grid">
             <ul class="items-list">

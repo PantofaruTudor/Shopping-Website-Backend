@@ -135,6 +135,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ////////////////////////////////////////////////////////
 
+function toggleDropdown(dropdownId){
+    const dropdown = document.getElementById(dropdownId)
+    if(dropdown.style.display === "block")
+        dropdown.style.display = "none"
+    else
+        dropdown.style.display = "block"
+}
+
+
+////////////////////////////////////////////////////////////
+//AICI ESTE GRID-UL CU ITEME
 const showItems = async(page = 1) =>{
     try{
         itemsGrid.innerHTML = "Loading....."
@@ -227,6 +238,7 @@ const pageTransition = async() =>{
         })
     })
 }
+
 
 
 ////// FILTER ARROW ANIMATION//////////////////////////
