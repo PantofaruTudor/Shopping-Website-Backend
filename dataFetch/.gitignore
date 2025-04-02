@@ -5,5 +5,5 @@ package.json
 package-lock.json
 products.json
 .env
-./node_modules
-./__pycache__
+node_modules/
+__pycache__/
