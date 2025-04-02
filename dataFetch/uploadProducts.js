@@ -24,6 +24,9 @@ const populating = async()=> {
         console.log(error)
         return 
     }
+    finally{
+        process.exit(0)
+    }
 }
 
 

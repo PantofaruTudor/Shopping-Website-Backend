@@ -1,22 +1,38 @@
 from database import links
 from PRMfetch import fetch_product_data
+from concurrent.futures import ThreadPoolExecutor
 import json
 import time
-URL = "https://prm.com/ro/p/maison-mihara-yasuhiro-tenisi-ptsn-barbati-culoarea-negru-a13fw737-53693"
+
+def safe_fetch_data(url, retries=3):
+    for attempt in range(retries):
+        try:
+            result = fetch_product_data(url)
+            if result is not None:
+                return result  # Return the result if successful
+        except Exception as e:
+            print(f"Error fetching data from URL (Attempt {attempt + 1}/{retries}): {url}\n{e}")
+        
+        # Wait before retrying (optional, to avoid overwhelming the server)
+        time.sleep(1)
+
+    print(f"Failed to fetch data after {retries} attempts: {url}")
+    return None  # Return None if all retries fail
 
 start = time.time()
 product=[]
 
-# for URL in links:
-#     product_data = fetch_product_data(URL)
-#     product.append(product_data)
+with ThreadPoolExecutor(max_workers=9) as executor:
+    results = executor.map(safe_fetch_data, links)
 
-product_data = fetch_product_data(URL)
-product.append(product_data)
+for product_data in results:
+    if product_data is not None:
+        product.append(product_data)
 
+print(len(product))
 
 with open("products.json", "w", encoding="utf-8") as file:
-    json.dump(product,file,indent=4)
+    json.dump(product,file,indent=4, ensure_ascii=False)
 
 end = time.time()
 elapsed = end-start

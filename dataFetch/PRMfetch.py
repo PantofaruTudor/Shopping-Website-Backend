@@ -45,7 +45,7 @@ def extract_product_data(html):
 
         final_price = float(price_matches.group(1)) if price_matches else None
         final_brand = brand_matches.group(1).title() if brand_matches else None
-        final_name = names_matches.group(1).replace(final_brand, "").strip().split(",", 1)[0].strip().title() if names_matches and final_brand else None
+        final_name = names_matches.group(1).title().replace(final_brand, "").strip().split(",", 1)[0].strip() if names_matches and final_brand else None
 
         return {
             "price": final_price,
@@ -74,6 +74,10 @@ def fetch_product_data(URL):
 
             images = future_images.result()
             product_data = future_data.result()
+
+        if product_data is None:
+            print(f"No product data found for URL:{URL}")
+            return None
 
         product_data["images"] = images
         return product_data

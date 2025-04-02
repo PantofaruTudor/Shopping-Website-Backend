@@ -146,9 +146,9 @@ const showItems = async(page = 1) =>{
             return
         }
         const allProducts = products.map((item)=>{
-            const {_id,name,price,brand} = item
-            return `<div class="product-item">
-                <img class="main_image" src = "image.webp">
+            const {_id,name,price,brand,images} = item
+            return `<div class="product-item" data-images='${JSON.stringify(images)}'>
+                <img class="main_image" src = ${images[0]}>
                 <div class="item-favourite-name-box">
                     <p>${brand}</p>
                     <h2>${name}</h2>  
@@ -158,10 +158,12 @@ const showItems = async(page = 1) =>{
                             <img src="white_star.png" alt="favourite">
                         </button>
                     </div>          
-                </div>
+                </div> 
                 </div>`
         }).join('')
         itemsGrid.innerHTML = allProducts
+
+        addHoverEffect()
 
         pagination(productsLength)
         pageTransition()
@@ -176,8 +178,8 @@ const showItems = async(page = 1) =>{
 //  PAGINATION BUTTONS   ///////////////////////////////////////////////
 
 const paginationContainer = document.querySelector('.number-buttons')
-const pagination = async(totalProducts)=>{
-    const totalPages = Math.ceil(totalProducts/6)
+const pagination = (totalProducts)=>{
+    const totalPages = Math.ceil(totalProducts/12)
     let paginationButtons = ''
     for(let i=1;i<=totalPages;i++)
         {
@@ -188,6 +190,29 @@ const pagination = async(totalProducts)=>{
 }
 
 showItems()
+
+const addHoverEffect = () => {
+    const productItems = document.querySelectorAll('.product-item');
+
+    productItems.forEach((item) => {
+        const imageElement = item.querySelector('.main_image');
+        const images = JSON.parse(item.getAttribute('data-images')); // Parse the images array from the data attribute
+
+        // On hover, change to the second image if available
+        item.addEventListener('mouseenter', () => {
+            if (images && images.length > 1) {
+                imageElement.src = images[1]; // Change to the second image
+            }
+        });
+
+        // On mouse leave, revert to the first image
+        item.addEventListener('mouseleave', () => {
+            if (images && images.length > 0) {
+                imageElement.src = images[0]; // Revert to the first image
+            }
+        });
+    });
+};
 
 
 

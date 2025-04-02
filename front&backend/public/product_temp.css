@@ -21,6 +21,13 @@
     flex-direction: column;
     margin-top: 10px;
 }
+
+.item-favourite-name-box h2{
+    font-size: 1.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .favourite-item{
     border: none;
     width: 30px;
@@ -65,6 +72,7 @@
 
 h2.item-favourite-name-box{
     display: inline;
+    overflow: hidden;
 }
 
 .favourite-item{

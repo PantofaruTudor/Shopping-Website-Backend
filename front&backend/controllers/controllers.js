@@ -1,12 +1,12 @@
 const Product = require('../models/schema')
 
 const getAllProducts = async(req,res, next) =>{
-    const {page = 1, limit = 6} =  req.query
+    const {page = 1, limit = 12} =  req.query
     try{
         const products = await Product.find({})
             .skip((page-1)*limit)
             .limit(Number(limit))
-            .select('name brand price')
+            .select('name brand price images')
         const productsLength = await Product.countDocuments()
         res.status(200).json({products,productsLength})
     }
