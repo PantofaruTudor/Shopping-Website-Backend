@@ -134,13 +134,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 ////////////////////////////////////////////////////////
-
+//AICI SUNT TOATE CATEGORIILE DE FILTRE
 function toggleDropdown(dropdownId){
-    const dropdown = document.getElementById(dropdownId)
-    if(dropdown.style.display === "block")
-        dropdown.style.display = "none"
-    else
-        dropdown.style.display = "block"
+    existingTab = document.getElementById(`${dropdownId}`)
+    if(existingTab){
+        console.log(existingTab)
+        existingTab.remove()
+        return
+    }
+    const filterTab = document.createElement('div')
+    filterTab.id = dropdownId
+    filterTab.classList.add('filter-wrapper')
+    const prevFilter = document.querySelector(`[onclick="toggleDropdown('${dropdownId}')"]`) 
+    prevFilter.insertAdjacentElement("afterend",filterTab)
+
 }
 
 
@@ -210,14 +217,14 @@ const addHoverEffect = () => {
         const images = JSON.parse(item.getAttribute('data-images')); // Parse the images array from the data attribute
 
         // On hover, change to the second image if available
-        item.addEventListener('mouseenter', () => {
+        imageElement.addEventListener('mouseenter', () => {
             if (images && images.length > 1) {
                 imageElement.src = images[1]; // Change to the second image
             }
         });
 
         // On mouse leave, revert to the first image
-        item.addEventListener('mouseleave', () => {
+        imageElement.addEventListener('mouseleave', () => {
             if (images && images.length > 0) {
                 imageElement.src = images[0]; // Revert to the first image
             }

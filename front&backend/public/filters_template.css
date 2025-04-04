@@ -24,6 +24,11 @@
 
 }
 
+.filter-wrapper{
+    color: aqua;
+    font-size: 1rem;
+    padding: 10px 5px 10px 10px;
+}
 
 @media only screen and (max-width:1000px)
 {
@@ -39,11 +44,12 @@
 .filter-name::after {
 
     content: '→'; /* The arrow symbol */
+    rotate: 90deg;
     position: absolute;
-    top: 50%; /* Vertically center the arrow */
+    /* top: 50%;  */
     right: 0;
     transform: translateY(-50%); /* Center the arrow vertically */
-    font-size: 1.5rem; /* Arrow size */
+    font-size: 1rem; /* Arrow size */
     color: rgb(0, 0, 0); /* Arrow color */
     opacity: 0; /* Initially invisible */
     font-weight: 500;
