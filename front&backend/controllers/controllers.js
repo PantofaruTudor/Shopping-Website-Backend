@@ -6,7 +6,8 @@ const getAllProducts = async(req,res, next) =>{
         const query = {}
         if(brand)
         {
-            query.brand = brand
+            const brandArray = brand.split(',')
+            query.brand = { $in: brandArray}
         }
 
         if(price){
@@ -37,15 +38,11 @@ const getAllProducts = async(req,res, next) =>{
 
 
 // }
-
-
-
+ 
 const itemInsert = (req,res) => {
     console.log('asta e')
     res.status(404).send('Not yet finished')
 }
-
-
 
 
 module.exports = {getAllProducts, itemInsert}

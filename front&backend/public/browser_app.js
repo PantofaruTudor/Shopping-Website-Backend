@@ -143,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleDropdown(dropdownId){
     existingTab = document.getElementById(`${dropdownId}`)
     if(existingTab){
-        console.log(existingTab)
         existingTab.remove()
         return
     }
@@ -207,9 +206,9 @@ const showItems = async(page = 1,filters = {}) =>{
     try{
         itemsGrid.innerHTML = "Loading....."
 
-        const queryParams = new URLSearchParams({page, ...filters})
-        console.log(queryParams)
-        const {data:{products,productsLength}} = await axios.get(`/api/v1/products?page=${queryParams}`)
+        const queryString = buildQueryString(page,filters)
+        console.log(queryString)
+        const {data:{products,productsLength}} = await axios.get(`/api/v1/products?${queryString}`)
 
         if(products.length < 1){
             itemsGrid.innerHTML = '<h1>No items in the database</h1>'
@@ -234,9 +233,8 @@ const showItems = async(page = 1,filters = {}) =>{
         itemsGrid.innerHTML = allProducts
 
         addHoverEffect()
-
         pagination(productsLength)
-        pageTransition()
+        pageTransition(filters)
 
     }
     catch(error){
@@ -244,6 +242,16 @@ const showItems = async(page = 1,filters = {}) =>{
     }
 }
 
+const buildQueryString = (page,filters) => {
+    let queryString = `page=${page}`
+    for (const key in filters)
+    {
+        if(filters[key]){
+            queryString +=`&${key}=${encodeURIComponent(filters[key])}`
+        }
+    } 
+    return queryString
+}
 
 //  PAGINATION BUTTONS   ///////////////////////////////////////////////
 
@@ -286,14 +294,13 @@ const addHoverEffect = () => {
 
 
 
-const pageTransition = async() =>{
+const pageTransition = async(filters) =>{
     const pageButtons = document.querySelectorAll('.pagination-button')
-    console.log(pageButtons)
 
     pageButtons.forEach(button => {
         button.addEventListener("click",()=>{
-            pageNumberButton = button.innerHTML
-            showItems(pageNumberButton)
+            const pageNumberButton = button.innerHTML
+            showItems(pageNumberButton,filters)
         })
     })
 }
