@@ -3,7 +3,6 @@ const router = express.Router()
 
 const {
     getAllProducts,
-
 } = require('../controllers/controllers')
 
 router.route('/api/v1/products').get(getAllProducts)

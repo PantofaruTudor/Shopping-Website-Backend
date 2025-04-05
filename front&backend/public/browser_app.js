@@ -133,6 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+
+
+
+
 ////////////////////////////////////////////////////////
 //AICI SUNT TOATE CATEGORIILE DE FILTRE
 function toggleDropdown(dropdownId){
@@ -147,17 +152,64 @@ function toggleDropdown(dropdownId){
     filterTab.classList.add('filter-wrapper')
     const prevFilter = document.querySelector(`[onclick="toggleDropdown('${dropdownId}')"]`) 
     prevFilter.insertAdjacentElement("afterend",filterTab)
+    displayFilters(filterTab)
 
 }
 
+function displayFilters(element)
+{
+    if(element.id==="filter-brand")
+    {
+        brands=[
+            "Neighborhood",
+            "Maison Mihara Yasuhiro",
+            "Y-3",
+            "Kenzo",
+            "Human Made",
+            "Vetements",
+            "Andersson Bell",
+            "Rhude",
+            "Carhartt Wip",
+        ]
+
+        brands.forEach(brand=>{
+            const label = document.createElement("label"); 
+            const checkbox = document.createElement("input");
+
+            checkbox.type = "checkbox"; 
+            checkbox.addEventListener("change", handleBrandFilters); 
+
+            label.appendChild(checkbox); 
+            label.appendChild(document.createTextNode(brand)); 
+            element.appendChild(label); 
+        })
+    }
+}
+
+
+const handleBrandFilters = async() =>{
+    //prima oara vedem care branduri au fost selectate
+    const selectedBrands = []
+    document.querySelectorAll('#filter-brand label input[type="checkbox"]:checked').forEach((checkbox) => {
+        selectedBrands.push(checkbox.parentElement.textContent.trim()); 
+    });
+    // const query = selectedBrands.length > 0 ? `?brand=${selectedBrands.join(',')}`: '' ASTA ERA O METODA
+    const filters = {}
+    filters.brand = selectedBrands.join(',')
+    showItems(1,filters)
+
+
+}
 
 ////////////////////////////////////////////////////////////
 //AICI ESTE GRID-UL CU ITEME
-const showItems = async(page = 1) =>{
+const showItems = async(page = 1,filters = {}) =>{
     try{
         itemsGrid.innerHTML = "Loading....."
 
-        const {data:{products,productsLength}} = await axios.get(`/api/v1/products?page=${page}`)
+        const queryParams = new URLSearchParams({page, ...filters})
+        console.log(queryParams)
+        const {data:{products,productsLength}} = await axios.get(`/api/v1/products?page=${queryParams}`)
 
         if(products.length < 1){
             itemsGrid.innerHTML = '<h1>No items in the database</h1>'

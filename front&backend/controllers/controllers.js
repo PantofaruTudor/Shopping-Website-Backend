@@ -1,13 +1,22 @@
 const Product = require('../models/schema')
 
 const getAllProducts = async(req,res, next) =>{
-    const {page = 1, limit = 12} =  req.query
+    const {page = 1, limit = 12, brand, price } =  req.query
     try{
-        const products = await Product.find({})
+        const query = {}
+        if(brand)
+        {
+            query.brand = brand
+        }
+
+        if(price){
+            query.price = price
+        }
+        const products = await Product.find(query)
             .skip((page-1)*limit)
             .limit(Number(limit))
             .select('name brand price images')
-        const productsLength = await Product.countDocuments()
+        const productsLength = await Product.countDocuments(query)
         res.status(200).json({products,productsLength})
     }
     catch(error)
@@ -29,34 +38,6 @@ const getAllProducts = async(req,res, next) =>{
 
 // }
 
-const getProducts = async (req, res) => {
-    const { page = 1, limit = 6 } = req.query;
-    try {
-        const products = await Product.find()
-            .skip((page - 1) * limit)
-            .limit(Number(limit));
-        res.status(200).json({ products });
-    } catch (error) {
-        res.status(500).json({ error: 'Server error' });
-    }
-};
-
-// const getPaginatedItems = async(req,res) =>{
-//     try{
-//         const limit = 6
-//         const {page} = req.query
-//         const skip = (page-1)*limit
-//         const items = await Product.find().skip(skip).limit(Number(limit))
-//         res.status(200).json({
-//             items,page
-//         })
-//         //TREBUIE SA COMMBINI FUNCTIA ASTA CU GETALLPRODUCTS
-//     }
-//     catch(error)
-//     {
-//         res.status(404).error("problems with items pages")
-//     }
-// }
 
 
 const itemInsert = (req,res) => {
@@ -67,4 +48,4 @@ const itemInsert = (req,res) => {
 
 
 
-module.exports = {getAllProducts,getProducts, itemInsert}
+module.exports = {getAllProducts, itemInsert}
