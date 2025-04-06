@@ -157,9 +157,10 @@ function toggleDropdown(dropdownId){
 
 function displayFilters(element)
 {
-    if(element.id==="filter-brand")
-    {
-        brands=[
+    filterCategory = element.id.split('-')[1]
+    const filterOptions = {
+
+        brand:[
             "Neighborhood",
             "Maison Mihara Yasuhiro",
             "Y-3",
@@ -169,21 +170,139 @@ function displayFilters(element)
             "Andersson Bell",
             "Rhude",
             "Carhartt Wip",
+        ],
+        size:["XS","S","M","L","XL","XXL"],
+        category : [
+            "Shirts",
+            "T-Shirts",
+            "Hoodies",
+            "Jackets",
+            "Pants",
+            "Shorts",
+            "Sweaters",
+            "Coats",
+            "Accessories",
         ]
-
-        brands.forEach(brand=>{
-            const label = document.createElement("label"); 
-            const checkbox = document.createElement("input");
-
-            checkbox.type = "checkbox"; 
-            checkbox.addEventListener("change", handleBrandFilters); 
-
-            label.appendChild(checkbox); 
-            label.appendChild(document.createTextNode(brand)); 
-            element.appendChild(label); 
-        })
     }
+    const option = filterOptions[filterCategory]
+    option.forEach(item=>{
+        const label = document.createElement("label"); 
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox"; 
+        checkbox.addEventListener("change", handleBrandFilters); 
+
+        label.appendChild(checkbox); 
+        label.appendChild(document.createTextNode(item)); 
+        element.appendChild(label); 
+    })
 }
+
+
+const slider = document.querySelector(".price-input")
+const minPriceInput = slider.querySelector(".min-price")
+const maxPriceInput = slider.querySelector(".max-price")
+const range_slider = document.querySelector(".range-input")
+const progress = range_slider.querySelector(".progress")
+const minInput = range_slider.querySelector(".min-input")
+const maxInput = range_slider.querySelector(".max-input")
+
+const UpdateProgress = () =>{
+    const minValue = parseInt(minInput.value)
+    const maxValue = parseInt(maxInput.value)
+
+    //get the total range of the slider
+    const range = maxInput.max - minInput.min
+
+    //get the selected value range of the progress
+    const valueRange = maxValue - minValue
+
+    //calculate the width percentage
+    const width = valueRange / range * 100
+
+    //calculate the min thumb offset
+    const minOffset = ((minValue - minInput.min)/range)*100
+    //update the progress width
+    progress.style.width = width + "%"
+    progress.style.left = minOffset + "%"
+}
+
+const updateRange = (event) =>{
+    const input = event.target
+
+    let min = parseInt(minPriceInput.value)
+    let max = parseInt(maxPriceInput.value)
+
+    if(input === minPriceInput && max > min){
+        max = min
+        maxPriceInput.value = max
+    }
+    else if(input === maxPriceInput && max < min)
+    {
+        min = max
+        minPriceInput.value = min
+    }
+    minInput.value = min
+    maxInput.value = max
+
+    UpdateProgress()
+}
+
+minPriceInput.addEventListener("input", updateRange)
+maxPriceInput.addEventListener("input", updateRange)
+
+minInput.addEventListener("input",()=>{
+    const minValue = parseInt(minInput.value);
+    const maxValue = parseInt(maxInput.value);
+
+    // Ensure the min value does not exceed the max value
+    if (minValue >= maxValue) {
+        maxInput.value = minValue;
+    }
+
+    // Update the price inputs
+    minPriceInput.value = minInput.value;
+    maxPriceInput.value = maxInput.value;
+
+    // Update the progress bar
+    UpdateProgress();
+
+    // Debugging logs
+    console.log("Thumb Dragging:");
+    console.log("Min Thumb:", minInput.value);
+    console.log("Max Thumb:", maxInput.value);
+})
+
+maxInput.addEventListener("input",()=>{
+    const minValue = parseInt(minInput.value);
+    const maxValue = parseInt(maxInput.value);
+
+    // Ensure the max value does not go below the min value
+    if (maxValue <= minValue) {
+        minInput.value = maxValue;
+    }
+
+    // Update the price inputs
+    minPriceInput.value = minInput.value;
+    maxPriceInput.value = maxInput.value;
+
+    // Update the progress bar
+    UpdateProgress();
+
+    // Debugging logs
+    console.log("Thumb Dragging:");
+    console.log("Min Thumb:", minInput.value);
+    console.log("Max Thumb:", maxInput.value)
+})
+
+
+let isDragging = false
+let startOffsetX
+
+
+
+
+UpdateProgress()
 
 
 const handleBrandFilters = async() =>{

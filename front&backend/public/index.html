@@ -30,7 +30,24 @@
 
             <div class="filter-name" onclick="toggleDropdown('filter-sale')"><p>SALE</p></div>
 
-            <div class="filter-name"><p>PRICE</p></div>
+            <div class="filter-name" id="filter-price">
+                <p>PRICE</p>
+                <!-- copiata de undeva -->
+                
+                <div class="price-input">
+                    <input type="number" class="min-price" value="0" min="0" max="10000" step="50" disabled>
+                    <input type="number" class="max-price" value="10000" min="0" max="10000" step="50" disabled>
+                
+                </div>
+                <div class="range-input">
+                    <input type="range" class="min-input" value="0" min="0" max="10000" step="50">
+                    <input type="range" class="max-input" value="10000" min="0" max="10000" step="50">
+                    <div class="slider">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                
+            </div>
             <div id="price-selector"></div>
            
 
