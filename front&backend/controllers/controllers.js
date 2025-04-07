@@ -1,7 +1,7 @@
 const Product = require('../models/schema')
 
 const getAllProducts = async(req,res, next) =>{
-    const {page = 1, limit = 12, brand, price } =  req.query
+    const {page = 1, limit = 12, brand,price, sort} =  req.query
     try{
         const query = {}
         if(brand)
@@ -9,14 +9,26 @@ const getAllProducts = async(req,res, next) =>{
             const brandArray = brand.split(',')
             query.brand = { $in: brandArray}
         }
-
+        
         if(price){
-            query.price = price
+            const [minPrice,maxPrice] = price.split('-').map(Number)
+            query.price = {$gte:minPrice,$lte:maxPrice}
+        }
+
+        let sortOrder = {};
+        if (sort === 'price-asc') {
+            sortOrder.price = 1; // Sort by price in ascending order
+        } else if (sort === 'price-desc') {
+            sortOrder.price = -1; // Sort by price in descending order
+        } else if (sort === 'release-date-asc') {
+            sortOrder.releaseDate = 1; // Sort by release date in ascending order
+        } else if (sort === 'recommended') {
+            sortOrder.recommended = -1; // Example: Sort by a "recommended" field
         }
         const products = await Product.find(query)
+            .sort(sortOrder)
             .skip((page-1)*limit)
             .limit(Number(limit))
-            .select('name brand price images')
         const productsLength = await Product.countDocuments(query)
         res.status(200).json({products,productsLength})
     }

@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ////////////////////////////////////////////////////////
 //AICI SUNT TOATE CATEGORIILE DE FILTRE
 function toggleDropdown(dropdownId){
-    existingTab = document.getElementById(`${dropdownId}`)
+    const existingTab = document.getElementById(`${dropdownId}`)
     if(existingTab){
         existingTab.remove()
         return
@@ -155,178 +155,31 @@ function toggleDropdown(dropdownId){
 
 }
 
-function displayFilters(element)
-{
-    filterCategory = element.id.split('-')[1]
-    const filterOptions = {
-
-        brand:[
-            "Neighborhood",
-            "Maison Mihara Yasuhiro",
-            "Y-3",
-            "Kenzo",
-            "Human Made",
-            "Vetements",
-            "Andersson Bell",
-            "Rhude",
-            "Carhartt Wip",
-        ],
-        size:["XS","S","M","L","XL","XXL"],
-        category : [
-            "Shirts",
-            "T-Shirts",
-            "Hoodies",
-            "Jackets",
-            "Pants",
-            "Shorts",
-            "Sweaters",
-            "Coats",
-            "Accessories",
-        ]
-    }
-    const option = filterOptions[filterCategory]
-    option.forEach(item=>{
-        const label = document.createElement("label"); 
-        const checkbox = document.createElement("input");
-
-        checkbox.type = "checkbox"; 
-        checkbox.addEventListener("change", handleBrandFilters); 
-
-        label.appendChild(checkbox); 
-        label.appendChild(document.createTextNode(item)); 
-        element.appendChild(label); 
-    })
-}
+const filters = {
+    price: '',
+    brand: '',
+    sort: '', // Default empty sort parameter
+};
 
 
-const slider = document.querySelector(".price-input")
-const minPriceInput = slider.querySelector(".min-price")
-const maxPriceInput = slider.querySelector(".max-price")
-const range_slider = document.querySelector(".range-input")
-const progress = range_slider.querySelector(".progress")
-const minInput = range_slider.querySelector(".min-input")
-const maxInput = range_slider.querySelector(".max-input")
-
-const UpdateProgress = () =>{
-    const minValue = parseInt(minInput.value)
-    const maxValue = parseInt(maxInput.value)
-
-    //get the total range of the slider
-    const range = maxInput.max - minInput.min
-
-    //get the selected value range of the progress
-    const valueRange = maxValue - minValue
-
-    //calculate the width percentage
-    const width = valueRange / range * 100
-
-    //calculate the min thumb offset
-    const minOffset = ((minValue - minInput.min)/range)*100
-    //update the progress width
-    progress.style.width = width + "%"
-    progress.style.left = minOffset + "%"
-}
-
-const updateRange = (event) =>{
-    const input = event.target
-
-    let min = parseInt(minPriceInput.value)
-    let max = parseInt(maxPriceInput.value)
-
-    if(input === minPriceInput && max > min){
-        max = min
-        maxPriceInput.value = max
-    }
-    else if(input === maxPriceInput && max < min)
+const buildQueryString = (page,filters) => {
+    let queryString = `page=${page}`
+    for (const key in filters)
     {
-        min = max
-        minPriceInput.value = min
-    }
-    minInput.value = min
-    maxInput.value = max
-
-    UpdateProgress()
+        if(filters[key]){
+            queryString +=`&${key}=${encodeURIComponent(filters[key])}`
+        }
+    } 
+    return queryString
 }
 
-minPriceInput.addEventListener("input", updateRange)
-maxPriceInput.addEventListener("input", updateRange)
-
-minInput.addEventListener("input",()=>{
-    const minValue = parseInt(minInput.value);
-    const maxValue = parseInt(maxInput.value);
-
-    // Ensure the min value does not exceed the max value
-    if (minValue >= maxValue) {
-        maxInput.value = minValue;
-    }
-
-    // Update the price inputs
-    minPriceInput.value = minInput.value;
-    maxPriceInput.value = maxInput.value;
-
-    // Update the progress bar
-    UpdateProgress();
-
-    // Debugging logs
-    console.log("Thumb Dragging:");
-    console.log("Min Thumb:", minInput.value);
-    console.log("Max Thumb:", maxInput.value);
-})
-
-maxInput.addEventListener("input",()=>{
-    const minValue = parseInt(minInput.value);
-    const maxValue = parseInt(maxInput.value);
-
-    // Ensure the max value does not go below the min value
-    if (maxValue <= minValue) {
-        minInput.value = maxValue;
-    }
-
-    // Update the price inputs
-    minPriceInput.value = minInput.value;
-    maxPriceInput.value = maxInput.value;
-
-    // Update the progress bar
-    UpdateProgress();
-
-    // Debugging logs
-    console.log("Thumb Dragging:");
-    console.log("Min Thumb:", minInput.value);
-    console.log("Max Thumb:", maxInput.value)
-})
-
-
-let isDragging = false
-let startOffsetX
-
-
-
-
-UpdateProgress()
-
-
-const handleBrandFilters = async() =>{
-    //prima oara vedem care branduri au fost selectate
-    const selectedBrands = []
-    document.querySelectorAll('#filter-brand label input[type="checkbox"]:checked').forEach((checkbox) => {
-        selectedBrands.push(checkbox.parentElement.textContent.trim()); 
-    });
-    // const query = selectedBrands.length > 0 ? `?brand=${selectedBrands.join(',')}`: '' ASTA ERA O METODA
-    const filters = {}
-    filters.brand = selectedBrands.join(',')
-    showItems(1,filters)
-
-
-}
 
 ////////////////////////////////////////////////////////////
 //AICI ESTE GRID-UL CU ITEME
-const showItems = async(page = 1,filters = {}) =>{
+const showItems = async(page = 1,filters) =>{
     try{
         itemsGrid.innerHTML = "Loading....."
-
         const queryString = buildQueryString(page,filters)
-        console.log(queryString)
         const {data:{products,productsLength}} = await axios.get(`/api/v1/products?${queryString}`)
 
         if(products.length < 1){
@@ -360,16 +213,96 @@ const showItems = async(page = 1,filters = {}) =>{
         console.error(error)
     }
 }
+const page = 1
+showItems(page,filters)
 
-const buildQueryString = (page,filters) => {
-    let queryString = `page=${page}`
-    for (const key in filters)
-    {
-        if(filters[key]){
-            queryString +=`&${key}=${encodeURIComponent(filters[key])}`
-        }
-    } 
-    return queryString
+
+const sortBySelect = document.querySelector('.sortBy-select')
+
+sortBySelect.addEventListener("change", ()=>{
+    const selectedSort = sortBySelect.value
+    filters.sort = selectedSort
+    showItems(1,filters)
+})
+
+function displayFilters(element)
+{
+    const filterCategory = element.id.split('-')[1]
+    const filterOptions = {
+
+        brand:[
+            "Neighborhood",
+            "Maison Mihara Yasuhiro",
+            "Y-3",
+            "Kenzo",
+            "Human Made",
+            "Vetements",
+            "Andersson Bell",
+            "Rhude",
+            "Carhartt Wip",
+        ],
+        size:["XS","S","M","L","XL","XXL"],
+        category : [
+            "Shirts",
+            "T-Shirts",
+            "Hoodies",
+            "Jackets",
+            "Pants",
+            "Shorts",
+            "Sweaters",
+            "Coats",
+            "Accessories",
+        ]
+    }
+    const option = filterOptions[filterCategory]
+    const selectedBrands = filters.brand.split(',')
+
+    option.forEach(item=>{
+        const label = document.createElement("label"); 
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox"; 
+
+        if(selectedBrands.includes(item))
+            checkbox.checked = true
+
+        checkbox.addEventListener("change", handleFilters); 
+
+        label.appendChild(checkbox); 
+        label.appendChild(document.createTextNode(item)); 
+        element.appendChild(label); 
+    })
+}
+
+window.toggleDropdown = toggleDropdown
+
+//AICI SE AFLA FILTRUL DE PRICE
+import { filter_price } from "./price_filter.js"
+
+
+const price_filtering = () =>{
+    const updateItems = (minValue,maxValue) =>{
+        filters.price = `${minValue}-${maxValue}`
+        showItems(1,filters)
+    }
+      
+    filter_price(updateItems)
+}
+
+price_filtering()
+
+const handleFilters = async() =>{
+    //prima oara vedem care branduri au fost selectate
+
+    const selectedBrands = []
+    document.querySelectorAll('#filter-brand label input[type="checkbox"]:checked').forEach((checkbox) => {
+        selectedBrands.push(checkbox.parentElement.textContent.trim()); 
+    });
+    // const query = selectedBrands.length > 0 ? `?brand=${selectedBrands.join(',')}`: '' ASTA ERA O METODA
+
+    filters.brand = selectedBrands.join(',')
+    showItems(1,filters)
+
 }
 
 //  PAGINATION BUTTONS   ///////////////////////////////////////////////
@@ -386,7 +319,6 @@ const pagination = (totalProducts)=>{
 
 }
 
-showItems()
 
 const addHoverEffect = () => {
     const productItems = document.querySelectorAll('.product-item');
