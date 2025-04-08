@@ -1,9 +1,10 @@
 const itemsGrid = document.querySelector('.items-grid')
-const itemList = document.querySelector('.items-list')
+
 
 document.addEventListener('DOMContentLoaded', async()=>{
     const menuPlaceholder = document.getElementById('menu-placeholder')
-    const response = await fetch("main_menu.html")
+    const response = await fetch("/main_menu.html")
+    //console.log(window.location.href)
     const main_menu_HTML = await response.text()
     menuPlaceholder.innerHTML = main_menu_HTML
 
@@ -73,70 +74,6 @@ document.addEventListener('DOMContentLoaded', async()=>{
 })
 
 
-/* DROPDOWN-MENU //////////////////////////////////////////////////////*/
-document.addEventListener('DOMContentLoaded', () => {
-    function hideAllDropdowns() {
-        const allDropdowns = document.querySelectorAll('.dropdown_info ul');
-        allDropdowns.forEach(dropdown => {
-            dropdown.classList.add('hide');
-        });
-        dropdown_area.classList.remove('show');
-    }
-    let dropdown_area_active = false
-    let hoverTimeout;
-    const listItems = document.querySelectorAll('.categorii li');
-    const dropdown_area = document.querySelector('.dropdown_area')
-
-    listItems.forEach(item => {
-        const className = item.classList[0];
-        const dropdown = document.querySelector(`.${className}_dropdown`);
-
-        if(dropdown) {
-            dropdown.classList.add('hide')
-            item.addEventListener('mouseenter', ()=>{
-                hoverTimeout = setTimeout(() => {
-                    hideAllDropdowns()
-                    dropdown_area.classList.add('show')
-                    dropdown.classList.remove('hide')
-                },300)  
-
-                
-            });
-            item.addEventListener('mouseleave', () => {
-                hoverTimeout = setTimeout(()=> {                
-                    if(!dropdown_area.classList.contains('show') || dropdown_area_active === false)
-                    {
-                        dropdown.classList.add('hide');
-                        dropdown_area.classList.remove('show')
-                    }
-                }, 300)
-            });
- 
-            dropdown_area.addEventListener('mouseenter',()=>{
-                dropdown_area_active = true
-                if(!dropdown.classList.contains('hide'))
-                {
-                    dropdown_area.classList.add('show')
-                    dropdown.classList.remove('hide')
-                }
-                
-            })            
-
-            dropdown_area.addEventListener('mouseleave',()=>{
-                dropdown_area_active = false
-                dropdown_area.classList.remove('show')
-                dropdown.classList.add('hide')
-
-            })
-
-        }
-    });
-});
-
-
-
-
-
 
 ////////////////////////////////////////////////////////
 //AICI SUNT TOATE CATEGORIILE DE FILTRE
@@ -196,7 +133,7 @@ const showItems = async(page = 1,filters) =>{
                     <div class="item-price-favourite-box">
                         <p id="full-price">${price}$</p>
                         <button class="favourite-item">
-                            <img src="white_star.png" alt="favourite">
+                            <img src="../MainMenu/white_star.png" alt="favourite">
                         </button>
                     </div>          
                 </div> 

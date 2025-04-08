@@ -5,11 +5,13 @@ const app = express()
 /////////////////////////////////////
 const notFound = require('./middleware/route-not-found')
 
+app.use(express.static('./public/items'))
 app.use(express.static('./public'))
 app.use(express.json())
 
 
 const products_router = require('./routes/prod_routes')
+
 app.use('/', products_router)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'), (err) => {
@@ -22,6 +24,9 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/Menu', (req,res)=>{
+    //testez mainMenu
+})
 app.use(notFound)
 
 const port = 5000
