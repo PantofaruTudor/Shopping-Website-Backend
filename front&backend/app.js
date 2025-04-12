@@ -14,18 +14,26 @@ const products_router = require('./routes/prod_routes')
 
 app.use('/', products_router)
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'), (err) => {
+    res.sendFile(path.join(__dirname, 'public/items', 'index.html'), (err) => {
         if (err) {
             console.error('Error sending file:', err);
             res.status(500).send('Failed to send file');
         } else {
-            console.log('File sent successfully');
+            console.log('File sent successfully for the items page');
         }
     });
 });
 
 app.get('/Menu', (req,res)=>{
     //testez mainMenu
+    res.sendFile(path.join(__dirname,'public/Main','index.html'), (err)=>{
+        if (err) {
+            console.error('Error sending file:', err);
+            res.status(500).send('Failed to send file');
+        } else {
+            console.log('File sent successfully for the main_menu');
+        }
+    })
 })
 app.use(notFound)
 

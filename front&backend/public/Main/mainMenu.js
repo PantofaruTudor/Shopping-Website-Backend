@@ -1,5 +1,13 @@
 document.addEventListener('DOMContentLoaded', async()=>{
     const menuPlaceholder = document.getElementById('menu-placeholder')
+    const slideBanner = document.getElementById('slide-banner')
+    const brandsGrid = document.getElementById('Brands-grid')
+    const noutatiGrid = document.getElementById('Noutati-grid')
+    const upcomingGrid = document.getElementById('Upcoming-grid')
+    const newsContainer = document.getElementById('News-container')
+    const footerContainter = document.getElementById('Footer-information-container')
+
+    
     const response = await fetch("/main_menu.html")
     //console.log(window.location.href)
     const main_menu_HTML = await response.text()
@@ -68,4 +76,40 @@ document.addEventListener('DOMContentLoaded', async()=>{
         }
     });
 
+    const banner_slider = async()=> {
+        const responseSliders = await fetch("/Main/HTML_routes/slider_banner.html")
+        
+        //console.log(window.location.href)
+        const sliderBannerTEXT = await responseSliders.text()
+        slideBanner.innerHTML = sliderBannerTEXT;
+        const event = new Event('sliderContentLoaded')
+        slideBanner.dispatchEvent(event)
+    }
+    await banner_slider()
+
+    const brands_grid = async()=>{
+        const responseBrands = await fetch("/Main/HTML_routes/brands_grid.html")
+        const brandsGridTEXT = await responseBrands.text()
+        brandsGrid.innerHTML = brandsGridTEXT
+    }
+
+    await brands_grid()
+
+
+
+    const news_container = async() =>{
+        const responseNewsContainter = await fetch("/Main/HTML_routes/news_container.html")
+        const newsContainerTEXT = await responseNewsContainter.text()
+
+        newsContainer.innerHTML = newsContainerTEXT
+    }
+
+    await news_container()
+
+    
+
 })
+
+
+
+
