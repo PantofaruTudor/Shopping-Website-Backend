@@ -15,8 +15,18 @@ def fetch_page_source(driver, url):
 def extract_images(soup):
     json_scripts = soup.find_all("script", {"type": "application/ld+json"})
     images = []
+
+
+    # with open("all_scripts.json", "w", encoding="utf-8") as file:
+    #     for i, script in enumerate(json_scripts):
+    #         if script.string:  # Ensure the script has content
+    #             file.write(f"Script {i + 1}:\n")
+    #             file.write(script.string)
+    #             file.write("\n\n")
+
+
     if len(json_scripts) >= 3:
-        script = json_scripts[2]
+        script = json_scripts[1]
         if script.string:
             try:
                 json_data = json.loads(script.string)
@@ -52,6 +62,7 @@ def extract_product_data(html):
             "brand": final_brand,
             "name": final_name,
         }
+    
     return None
 
 def fetch_product_data(URL):

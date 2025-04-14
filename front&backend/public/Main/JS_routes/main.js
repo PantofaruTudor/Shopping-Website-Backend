@@ -9,7 +9,7 @@ if(!slideBanner)
     console.error("nu se incarca slide-banner") 
 }
 
-slideBanner.addEventListener('sliderContentLoaded',()=>{
+slideBanner.addEventListener('MenuContentLoaded',()=>{
 
     const testSlide = slideBanner.querySelector(".slider-banner-main")
 
@@ -160,29 +160,33 @@ window.addEventListener('scroll', () => {
 
 news = [
     {title: 'Jacob & Co. and G-Dragon Celebrate South Korea Boutique Opening', 
-        date: '2025-03-10T12:00:00', 
+        date: '2025-06-10T12:00:00', 
         image: 'Main/photos/news1.png'},
     {title: 'Avirex Celebrates 50th Anivversary With Limited-Edition Hellstar Collab', 
-        date: '2025-03-12T12:00:00', 
+        date: '2025-09-12T12:00:00', 
         image: 'Main/photos/news2.png'},  
     {title: 'Moncler Genius x FRGMT Collection Reimagines Everyday Wear', 
-        date: '2025-03-15T12:00:00',
+        date: '2025-08-15T12:00:00',
         image: 'Main/photos/news3.png'},
     {title: 'Breaking Down Supreme SS25',
-        date: '2025-03-10T12:00:00',
+        date: '2025-06-10T12:00:00',
         image: 'Main/photos/news4.png'},
 ]
 
 
-const newsGrid = document.querySelectorAll('.article-grid div')
-newsGrid.forEach((article, index) => {
-    const releaseDate = new Date(news[index].date)
-    const daysAgo = Math.floor((new Date() - releaseDate) / (1000 * 60 * 60 * 24)) * (-1)
-    article.innerHTML = `
-        <img src=${news[index].image} alt=${news[index].title}>
-        <div class="article-text">
-            <h2 style="font-weight:300;">${news[index].title}</h2>
-            <p>${daysAgo} days ago</p>
-        </div>
-    `
+const News_container = document.getElementById("News-container")
+News_container.addEventListener("MenuContentLoaded",()=>{
+
+    const newsGrid = News_container.querySelectorAll('.news_container .article-grid div')
+    newsGrid.forEach((article, index) => {
+        const releaseDate = new Date(news[index].date)
+        const daysAgo = Math.floor((new Date() - releaseDate) / (1000 * 60 * 60 * 24)) * (-1)
+        article.innerHTML = `
+            <img src=${news[index].image} alt=${news[index].title}>
+            <div class="article-text">
+                <h2 style="font-weight:300;">${news[index].title}</h2>
+                <p>${daysAgo} days ago</p>
+            </div>
+        `
+    })
 })

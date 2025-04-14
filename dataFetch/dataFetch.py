@@ -22,12 +22,17 @@ def safe_fetch_data(url, retries=3):
 start = time.time()
 product=[]
 
+def valid_data(product):
+    return all(value is not None for value in product.values())
+
 with ThreadPoolExecutor(max_workers=9) as executor:
     results = executor.map(safe_fetch_data, links)
 
 for product_data in results:
-    if product_data is not None:
+    if product_data is not None and valid_data(product_data):
         product.append(product_data)
+    else:
+        print("AM GASIT UN ELEMENT CORUPT")
 
 print(len(product))
 

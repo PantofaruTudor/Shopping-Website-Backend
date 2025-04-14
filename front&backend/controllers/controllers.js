@@ -1,7 +1,7 @@
 const Product = require('../models/schema')
 
-const getAllProducts = async(req,res, next) =>{
-    const {page = 1, limit = 12, brand,price, sort} =  req.query
+const getAllProducts = async(req,res,next) =>{
+    const {page, limit , brand,price, sort} =  req.query
     try{
         const query = {}
         if(brand)
@@ -25,10 +25,17 @@ const getAllProducts = async(req,res, next) =>{
         } else if (sort === 'recommended') {
             sortOrder.recommended = -1; // Example: Sort by a "recommended" field
         }
-        const products = await Product.find(query)
-            .sort(sortOrder)
-            .skip((page-1)*limit)
-            .limit(Number(limit))
+        if (page) {
+            const limit = 12; // Set limit to 12 if page is defined
+            const skip = (page - 1) * limit;
+            products = await Product.find(query)
+                .sort(sortOrder)
+                .skip(skip)
+                .limit(limit);
+        } else {
+            // Fetch all products if page is undefined
+            products = await Product.find(query).sort(sortOrder);
+        }
         const productsLength = await Product.countDocuments(query)
         res.status(200).json({products,productsLength})
     }

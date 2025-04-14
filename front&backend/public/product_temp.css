@@ -6,11 +6,15 @@
 }
 
 .noutati_button{
-    transition: border-color 0.3s ease, color 0.3s ease;
+    transition: border-color 0.3s ease, color 0.3s ease;    
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 10px;
 }
 .noutati_button:hover{
-    border-color: rgb(196, 160, 160);
-    color: rgb(196, 160, 160);
+    border-color: rgb(163, 113, 113);
+    color: rgb(163, 113, 113);
+    cursor: pointer;
 }
 
 .item-favourite-name-box{

@@ -157,8 +157,12 @@
 /*BRANDS SCROLL BANNER(deasupra)--------------------------*/
 
 
-.container{
+.news_container{
     margin: 30px 20px 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 .article-grid{
@@ -184,3 +188,179 @@
 }
 
 /*ARTICLE NEWS GRID(deasupra)///////////////////////////*/
+
+.upcoming-product-grid
+{
+    background-color: black;
+    width: 100%;
+    margin: 50px 0 50px 0;
+    position: relative;
+}
+
+.upcoming-product-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.upcoming-header-text{
+    position: relative;
+    font-size: 1.5rem;
+    color:white;
+    margin-bottom: 0px;
+    margin-top: 20px;
+}
+.upcoming_button_class{
+    position: relative;
+}
+.upcoming_button_class a{
+    color: white;
+    margin: 20px 0 20px 0;
+    cursor: pointer;
+    padding: 15px;
+    border: 2px solid white;
+    border-radius: 15px;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+.upcoming_button_class a:hover
+{
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.next-date-icon{
+    position: absolute;
+    right: 10%;
+    transform: translateX(-35%);
+    width: 170px;
+    height: 170px;
+    transform: rotate(-45deg);
+    z-index: 0;
+}
+
+.upcoming-border-grid{
+    margin: 0 0 0 30px;
+    height: 100%;
+    width: 100%;
+}
+
+.upcoming-item-grid{
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    scroll-behavior: smooth;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: 0 0 20px 0;
+    flex-wrap: nowrap;
+}
+
+.upcoming-item-grid::-webkit-scrollbar{ /* ASA ASCUNZI SCROLLBARUL IN BROWSER*/
+    display: none;
+}
+
+.product-item-upcoming{
+    background-color: white;
+    border: 1px solid black;
+    height: 100%;
+    width: 400px;
+    flex-shrink: 0;
+}
+
+@media only screen and (max-width: 900px) {
+    .next-date-icon{
+        display: none;
+    }
+    .product-item-upcoming{
+        width: 200px;
+    }
+}
+
+
+
+.upcoming-item-grid .product-item-upcoming .item-favourite-name-box{
+    display: flex;
+    align-items: center;
+}
+.upcoming-item-grid .item-favourite-name-box .favourite-item{
+    display: none;
+}
+.upcoming-item-grid .item-favourite-name-box p{
+    display: none;
+}
+
+.upcoming-item-grid .product-item-upcoming .item-favourite-name-box h2{
+    font-weight: 300;
+        
+}
+
+.upcoming-item-grid img{
+    filter: blur(0.7rem);
+    transition: filter 0.3s ease;
+    
+
+}
+.upcoming-item-grid img:hover{
+    transform: none;
+    cursor:auto;
+}
+
+
+.scroll-button{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 2rem;
+    border: none;
+    color: white;
+    z-index: 3;
+    background-color: transparent;
+}
+
+.previous{
+    left: 0;
+}
+.upper{
+
+    right: 0;
+    color: black;
+}
+
+.product-item-upcoming{
+    position: relative;
+}
+.upcoming-item-grid .product-item-upcoming .upcoming_item_timer{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    text-align: center;
+}
+
+.upcoming_item_timer{
+    font-size: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.425);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.noutati_button_class, .sales_button_class, .upcoming_button_class {
+    margin: 30px;
+    font-weight: 500;
+    font-size: 1.3rem;
+    padding: 10px;
+}
+/*UPCOMING PRODUCT GRID(deasupra)///////////////////////////////////////*/
+
+/* ADAUGARI LA SALES&NOUTATI ITEMS GRID  */
+
+.sales-product-grid .items-grid{
+    margin: 25px;
+    max-width: 100%;
+    width: auto;
+}

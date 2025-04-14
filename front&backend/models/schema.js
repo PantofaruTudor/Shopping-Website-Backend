@@ -4,11 +4,11 @@ const productSchema = new mongoose.Schema({
     //_id:Number,
     name:{
         type:String,
-        required:true
+        //required:true
     },
     brand:{
         type:String,
-        required:true
+        //required:true
     },
     color:{
         type:String,
@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
     },
     price:{
         type:Number,
-        required:true
+        //required:true
     },
     sizes: {
         type:[Number],
@@ -34,6 +34,10 @@ const productSchema = new mongoose.Schema({
     sale: {
         type:Boolean,
         default:false
+    },
+    upcoming:{
+        type:Boolean, 
+        default: false
     }
 })
 
