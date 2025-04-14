@@ -187,10 +187,30 @@ document.addEventListener('DOMContentLoaded', async()=>{
         const salesANDrecommendedTEXT = await salesANDrecommended.text()
         noutatiGrid.innerHTML = salesANDrecommendedTEXT
         const {data:{products}} = await axios.get("/api/v1/products")
-        const salesCounter = 10, noutatiCounter = 10
+        const pageItemsCounter = 12
+
+        const noutatiProducts = products.filter(item => !item.sale).slice(0,pageItemsCounter).map((item)=>{
+            const {name,brand,price,images} = item
+            return `<div class="product-item" data-images='${JSON.stringify(images)}'>
+            <img class="main_image" src = ${images[0]}>
+            <div class="item-favourite-name-box">
+                <p>${brand}</p>
+                <h2>${name}</h2>  
+                <div class="item-price-favourite-box">
+                    <p id="full-price">${price}$</p>
+                    <button class="favourite-item">
+                        <img src="../MainMenu/white_star.png" alt="favourite">
+                    </button>
+                </div>          
+            </div> 
+            </div>`
+        }).join('')
+        const noutatiItemGrid = noutatiGrid.querySelector(".noutati-product-grid .items-grid")
+        console.log(noutatiItemGrid)
+        noutatiItemGrid.innerHTML = noutatiProducts
 
 
-        const salesProducts = products.filter(item => item.sale).map((item) => {
+        const salesProducts = products.filter(item => item.sale).slice(0,pageItemsCounter).map((item) => {
             const {name,brand,price,images} = item
             return `<div class="product-item" data-images='${JSON.stringify(images)}'>
             <img class="main_image" src = ${images[0]}>
@@ -210,13 +230,32 @@ document.addEventListener('DOMContentLoaded', async()=>{
         const salesItemGrid = noutatiGrid.querySelector(".sales-product-grid .items-grid")
         salesItemGrid.innerHTML = salesProducts
 
+        const addHoverEffect = () => {
+            const productItems = document.querySelectorAll('.product-item');
+        
+            productItems.forEach((item) => {
+                const imageElement = item.querySelector('.main_image');
+                const images = JSON.parse(item.getAttribute('data-images')); // Parse the images array from the data attribute
+        
+                // On hover, change to the second image if available
+                imageElement.addEventListener('mouseenter', () => {
+                    if (images && images.length > 1) {
+                        imageElement.src = images[1]; // Change to the second image
+                    }
+                });
+        
+                // On mouse leave, revert to the first image
+                imageElement.addEventListener('mouseleave', () => {
+                    if (images && images.length > 0) {
+                        imageElement.src = images[0]; // Revert to the first image
+                    }
+                });
+            });
+        };
 
-
-
+        addHoverEffect()
     }
 
-    
-        
     
     await banner_slider()
     await brands_grid()

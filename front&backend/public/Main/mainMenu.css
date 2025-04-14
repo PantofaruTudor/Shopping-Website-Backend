@@ -357,10 +357,14 @@
 }
 /*UPCOMING PRODUCT GRID(deasupra)///////////////////////////////////////*/
 
-/* ADAUGARI LA SALES&NOUTATI ITEMS GRID  */
 
-.sales-product-grid .items-grid{
+
+/* ADAUGARI LA SALES&NOUTATI ITEMS GRID  */
+#Noutati-grid .items-grid{
     margin: 25px;
-    max-width: 100%;
     width: auto;
+}
+
+#Noutati-grid > *{
+    margin: 30px 0 80px 0;
 }
