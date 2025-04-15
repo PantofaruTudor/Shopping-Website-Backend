@@ -5,26 +5,16 @@ const app = express()
 /////////////////////////////////////
 const notFound = require('./middleware/route-not-found')
 
-app.use(express.static('./public/items'))
-app.use(express.static('./public'))
 app.use(express.json())
 
 
+
 const products_router = require('./routes/prod_routes')
+app.use('/api/v1/products', products_router)
 
-app.use('/', products_router)
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/items', 'index.html'), (err) => {
-        if (err) {
-            console.error('Error sending file:', err);
-            res.status(500).send('Failed to send file');
-        } else {
-            console.log('File sent successfully for the items page');
-        }
-    });
-});
 
-app.get('/Menu', (req,res)=>{
+app.use(express.static('./public'))
+app.get('/', (req,res)=>{
     //testez mainMenu
     res.sendFile(path.join(__dirname,'public/Main','index.html'), (err)=>{
         if (err) {
@@ -35,6 +25,19 @@ app.get('/Menu', (req,res)=>{
         }
     })
 })
+
+app.use(express.static('./public/items'))
+app.get('/noutati', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/items', 'index.html'), (err) => {
+        if (err) {
+            console.error('Error sending file:', err);
+            res.status(500).send('Failed to send file');
+        } else {
+            console.log('File sent successfully for the items page');
+        }
+    });
+});
+
 app.use(notFound)
 
 const port = 5000

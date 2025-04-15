@@ -157,6 +157,10 @@
 /*BRANDS SCROLL BANNER(deasupra)--------------------------*/
 
 
+#News-container{
+    margin: 100px 0 100px 0;
+}
+
 .news_container{
     margin: 30px 20px 30px 20px;
     display: flex;

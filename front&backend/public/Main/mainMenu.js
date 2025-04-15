@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
         dropdown_area.classList.remove('show');
     }
     let dropdown_area_active = false
-    let hoverTimeout;
+
     const listItems = document.querySelectorAll('.categorii li');
     const dropdown_area = document.querySelector('.dropdown_area')
 
@@ -183,11 +183,13 @@ document.addEventListener('DOMContentLoaded', async()=>{
 
     // SALE&RECOMMENDED ITEMS GRID//////////////////////////////////////////////
     const sales_container = async()=>{
-        const salesANDrecommended = await fetch('/Main/HTML_routes/noutati_grid.html')
-        const salesANDrecommendedTEXT = await salesANDrecommended.text()
-        noutatiGrid.innerHTML = salesANDrecommendedTEXT
+        const sales = await fetch('/Main/HTML_routes/noutati_grid.html')
+        const salesTEXT = await sales.text()
+        noutatiGrid.innerHTML = salesTEXT
         const {data:{products}} = await axios.get("/api/v1/products")
         const pageItemsCounter = 12
+        
+        const salePercent = 10
 
         const noutatiProducts = products.filter(item => !item.sale).slice(0,pageItemsCounter).map((item)=>{
             const {name,brand,price,images} = item
@@ -219,6 +221,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
                 <h2>${name}</h2>  
                 <div class="item-price-favourite-box">
                     <p id="full-price">${price}$</p>
+                    <p id="sale-price">${(price-(price*(1/salePercent))).toFixed(1)}$</p>
                     <button class="favourite-item">
                         <img src="../MainMenu/white_star.png" alt="favourite">
                     </button>
