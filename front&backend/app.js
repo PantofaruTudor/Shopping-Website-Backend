@@ -38,6 +38,22 @@ app.get('/noutati', (req, res) => {
     });
 });
 
+
+
+app.use(express.static('./public'))
+app.get('/log-in', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/user_AUTH', 'index.html'), (err) => {
+        if (err) {
+            console.error('Error sending file:', err);
+            res.status(500).send('Failed to send file');
+        } else {
+            console.log('File sent successfully for the mata page');
+        }
+    });
+});
+
+
+
 app.use(notFound)
 
 const port = 5000

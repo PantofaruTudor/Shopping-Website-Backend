@@ -3,37 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=League+Spartan:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Shippori+Antique+B1&display=swap" rel="stylesheet">
 
 
-    <link rel="stylesheet" href = "website.css">
-    <link rel="stylesheet" href = "main-menu.css">
-    <link rel="stylesheet" href = "product_temp.css">
-    <link rel="stylesheet" href = "/Main/mainMenu.css">
 
-    <title>Website Database</title>
+    <link rel="stylesheet" href = "main-menu.css">
+    <link rel="stylesheet" href = "user_AUTH/user_AUTH.css">
+
+    <title>LOG IN</title>
 </head>
 <body>
     <div id="menu-placeholder"></div>
 
-    <div id="slide-banner"></div>
+    <div id="user_log_container">
+        <div id="client_log" class="user_container">
+            <input id="username" placeholder="email">
+            <input id="password" placeholder="password">
+            <button id="authentication">AUTENTIFICARE</button>
+            <p id="password_reset">Ai uitat parola?</p>
+        </div>
+        <div id="new_client_log" class="user_container">
+            <h1 id="new_client_default">Esti un utilizator nou?</h1>
+            <p>Apasa butonul de mai jos pentru a-ti crea contul</p>
+            <button id="create_account">CONT NOU</button>
+        </div>
+    </div>
 
-    <div id="Brands-grid"></div>
-
-    <div id="Noutati-grid"></div>
-    
-    <div id="Upcoming-grid"></div>
-    
-    <div id="News-container"></div>
-    
-    <div id="Footer-information-container"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="\mainMenu.js"></script>
-    <script src="\Main\Main.js"></script>
-    <script src="\Main\JS_routes\main.js"></script>
+    <script src="/mainMenu.js"></script>
+    <script src="/user_AUTH/user_AUTH.js"></script>
+
+
 </body>
 </html>
