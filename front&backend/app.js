@@ -50,6 +50,8 @@ app.get('/log-in', (req, res) => {
             console.log('File sent successfully for the mata page');
         }
     });
+    const user_data = require('./public/user_AUTH/user_AUTH.js')
+    user_data()
 });
 
 

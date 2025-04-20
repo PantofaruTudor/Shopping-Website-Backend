@@ -8,6 +8,8 @@
     border-radius: 25px;
 }
 
+
+
 .user_container{
     padding: 20px;
     display: flex;
@@ -17,6 +19,18 @@
 
 .user_container input{
     border-radius: 25px;
-    
+    border: 2px solid rgb(139, 127, 127);
     font-size: 1rem;
+    padding: 5px;
+}
+
+#password_reset{
+    display: inline-block;
+    margin:0
+}
+
+#password_reset:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    
 }
