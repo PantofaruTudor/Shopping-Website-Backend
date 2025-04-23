@@ -54,23 +54,48 @@ app.get('/log-in', (req, res) => {
 });
 
 
-const products_router = require('./routes/prod_routes')
-app.use('/api/v1/products', products_router)
-
-app.use(notFound)
 
 const port = 5000
 const start = async() => {
-    try{
-        const connectDB = require('./db/connect_database')
-        connectDB(process.env.MONGO_URI)
+    try {
 
-        app.listen(port, console.log(`Server is listening to port ${port}`))
-    }
-    catch(error)
-    {
-        console.log(error)
+        const connectDB = require('./db/connect_database');
+
+        // Connect to the items database
+        const itemsConnection = connectDB(process.env.MONGO_URI);
+        console.log('Connected to the items database');
+
+        // Connect to the user database
+        const userConnection = connectDB(process.env.MONGO_URI_USER);
+        console.log('Connected to the user database');
+
+        // Load models for each connection
+        const { Product } = require('./models/schema')(itemsConnection);
+        const { User } = require('./models/schema')(userConnection);
+
+        // Pass the Product model to the products router
+        const productsRouter = require('./routes/prod_routes')(Product);
+        app.use('/api/v1/products', productsRouter);
+
+        // Example route for user authentication
+        app.post('/api/v1/auth/register', async (req, res) => {
+            const { username, email, password } = req.body;
+            try {
+                const newUser = await User.create({ username, email, password });
+                res.status(201).json({ success: true, user: newUser });
+            } catch (error) {
+                res.status(500).json({ error: 'Server error' });
+            }
+        });
+
+        app.listen(port, () => console.log(`Server is listening to port ${port}`));
+    } catch (error) {
+        console.error('Error starting the application:', error.message);
     }
 }
 
+
 start()
+
+
+app.use(notFound)
