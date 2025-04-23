@@ -25,6 +25,7 @@ const getAllProducts = async(req,res,next) =>{
         } else if (sort === 'recommended') {
             sortOrder.recommended = -1; // Example: Sort by a "recommended" field
         }
+        
         if (page) {
             const limit = 12; // Set limit to 12 if page is defined
             const skip = (page - 1) * limit;
@@ -41,6 +42,9 @@ const getAllProducts = async(req,res,next) =>{
     }
     catch(error)
     {
+        console.error('Error in getAllProducts:', error.message)
+        console.error(error.stack)
+
         res.status(500).json({error:'Server error'})
     }
 }

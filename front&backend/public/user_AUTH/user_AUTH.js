@@ -1,13 +1,9 @@
 require('dotenv').config({path:'./public/user_AUTH/.env'})
 
-
-console.log('MONGO_URI_USER:  ',process.env.MONGO_URI_USER)
-
 const user_AUTH_database = async()=>{
     try{
         const connectDB = require('../../db/connect_database')
         console.log('Connecting to the user AUTH database...');
-
         await connectDB(process.env.MONGO_URI_USER)
         console.log('Connected to the user AUTH database')
     }

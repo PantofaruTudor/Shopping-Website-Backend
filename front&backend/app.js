@@ -9,8 +9,7 @@ app.use(express.json())
 
 
 
-const products_router = require('./routes/prod_routes')
-app.use('/api/v1/products', products_router)
+
 
 
 app.use(express.static('./public'))
@@ -55,6 +54,8 @@ app.get('/log-in', (req, res) => {
 });
 
 
+const products_router = require('./routes/prod_routes')
+app.use('/api/v1/products', products_router)
 
 app.use(notFound)
 
@@ -62,7 +63,8 @@ const port = 5000
 const start = async() => {
     try{
         const connectDB = require('./db/connect_database')
-        await connectDB(process.env.MONGO_URI)
+        connectDB(process.env.MONGO_URI)
+
         app.listen(port, console.log(`Server is listening to port ${port}`))
     }
     catch(error)
