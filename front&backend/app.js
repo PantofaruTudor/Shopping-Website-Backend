@@ -1,7 +1,5 @@
 require('dotenv').config()
 const express = require('express')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 const path = require('path')
 const app = express()
 /////////////////////////////////////
@@ -52,8 +50,9 @@ app.get('/log-in', (req, res) => {
 });
 
 const authRoutes = require('./routes/auth_routes');
-app.use('/api/v1/auth', authRoutes); // Register auth routes
-
+const productsRouter = require('./routes/prod_routes');
+app.use('/auth', authRoutes)
+app.use('/api/v1/products', productsRouter);
 
 const port = 5000
 const start = async() => {
@@ -61,13 +60,6 @@ const start = async() => {
 
         const connectDB = require('./db/connect_database');
         const itemsConnection = connectDB(process.env.MONGO_URI);
-
-        // Load models for each connection
-        const { Product } = require('./models/schema')(itemsConnection);
-
-        // Pass the Product model to the products router
-        const productsRouter = require('./routes/prod_routes')(Product);
-        app.use('/api/v1/products', productsRouter);
 
 
         app.listen(port, () => console.log(`Server is listening to port ${port}`));

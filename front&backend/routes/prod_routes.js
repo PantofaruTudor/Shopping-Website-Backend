@@ -13,10 +13,10 @@
 
 const express = require('express');
 
-module.exports = (Product) => {
+module.exports = () => {
     const router = express.Router();
 
-    const { getAllProducts } = require('../controllers/controllers')(Product);
+    const { getAllProducts } = require('../controllers/product_controllers');
 
     router.route('/').get(getAllProducts);
 
