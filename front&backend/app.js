@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const bcrypt = require('bcrypt')
 const path = require('path')
 const app = express()
 /////////////////////////////////////
@@ -77,16 +78,29 @@ const start = async() => {
         const productsRouter = require('./routes/prod_routes')(Product);
         app.use('/api/v1/products', productsRouter);
 
-        // Example route for user authentication
-        app.post('/api/v1/auth/register', async (req, res) => {
-            const { username, email, password } = req.body;
-            try {
-                const newUser = await User.create({ username, email, password });
-                res.status(201).json({ success: true, user: newUser });
-            } catch (error) {
-                res.status(500).json({ error: 'Server error' });
-            }
-        });
+        app.post("/register", (req,res)=>{
+            bcrypt.hash(req.body.password,10).
+            then((hashedPassword)=>{
+                const user = new User({
+                    email:req.body.email,
+                    password:hashedPassword
+                })
+            }).
+            catch((e)=>{
+                response.status(500).send({message:"Password was not hashed succesfully",e})
+            })
+            //the code above is telling bcrypt to has the passwd 10 times
+
+
+            user.save()
+        })
+
+
+
+
+
+
+
 
         app.listen(port, () => console.log(`Server is listening to port ${port}`));
     } catch (error) {

@@ -62,7 +62,6 @@ module.exports = (connection) => {
 
     // User Schema
     const userSchema = new mongoose.Schema({
-        username: { type: String, required: true },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         createdAt: { type: Date, default: Date.now },
@@ -70,7 +69,7 @@ module.exports = (connection) => {
 
     // Return models tied to the specific connection
     return {
-        Product: connection.model('Product', productSchema),
-        User: connection.model('User', userSchema),
+        Product: connection.models.Product || connection.model('Product', productSchema),
+        Users: connection.models.User || connection.model('User', userSchema),
     };
 };
