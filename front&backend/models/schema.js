@@ -70,6 +70,6 @@ module.exports = (connection) => {
     // Return models tied to the specific connection
     return {
         Product: connection.models.Product || connection.model('Product', productSchema),
-        Users: connection.models.User || connection.model('User', userSchema),
+        User: connection.models.User || connection.model('User', userSchema),
     };
 };
