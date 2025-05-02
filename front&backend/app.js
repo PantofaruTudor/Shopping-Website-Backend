@@ -54,11 +54,36 @@ const productsRouter = require('./routes/prod_routes');
 app.use('/auth', authRoutes)
 app.use('/api/v1/products', productsRouter);
 
+
+
+const {requestPoint} = require('../front&backend/controllers/auth_controller.js')
+app.get("/free-endpoint", (req, res) => {
+    res.json({ message: "You are free to access me anytime" });
+  });
+app.get("/auth-endpoint", requestPoint, (req, res) => {
+    res.json({ message: "You are authorized to access me" });
+  });
+
+
 const port = 5000
 const start = async() => {
     try {
 
         const connectDB = require('./db/connect_database');
+        app.use((req,res,next)=>{
+            res.setHeader("Access-Control-Allow-Origin", "*")
+            res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+            next()
+
+            //THIS IS FOR THE CORS ERRORS
+        
+        })
+
+        
+
+
+
         const itemsConnection = connectDB(process.env.MONGO_URI);
 
 

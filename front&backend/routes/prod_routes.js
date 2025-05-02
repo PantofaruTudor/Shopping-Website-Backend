@@ -13,12 +13,10 @@
 
 const express = require('express');
 
-module.exports = () => {
-    const router = express.Router();
+const router = express.Router();
 
-    const { getAllProducts } = require('../controllers/product_controllers');
+const { getAllProducts } = require('../controllers/product_controllers');
 
-    router.route('/').get(getAllProducts);
+router.route('/').get(getAllProducts);
 
-    return router;
-};
+module.exports =  router
