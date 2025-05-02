@@ -6,8 +6,7 @@ const app = express()
 const notFound = require('./middleware/route-not-found')
 
 app.use(express.json())
-app.use(express.static('./public'))
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req,res)=>{
     //testez mainMenu
@@ -21,7 +20,7 @@ app.get('/', (req,res)=>{
     })
 })
 
-app.use(express.static('./public/items'))
+app.use(express.static(path.join(__dirname, '/public/items')));
 app.get('/noutati', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/items', 'index.html'), (err) => {
         if (err) {
@@ -34,8 +33,6 @@ app.get('/noutati', (req, res) => {
 });
 
 
-
-app.use(express.static('./public'))
 app.get('/log-in', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/user_AUTH', 'index.html'), (err) => {
         if (err) {
@@ -80,10 +77,7 @@ const start = async() => {
         
         })
 
-        
-
-
-
+    
         const itemsConnection = connectDB(process.env.MONGO_URI);
 
 
