@@ -29,38 +29,38 @@ document.addEventListener('DOMContentLoaded', async()=>{
         
     }
 
-
+    
     //UPCOMING PRODUCTS GRID//////////////////////////////////////////////////////
-    const upcoming_grid_function = async() =>{
-
+    
+    const upcoming_grid_function = async(products) =>{
+        
         const releaseDate = new Date().getTime()
         const upcomingItems = await fetch("/Main/HTML_routes/upcoming_grid.html")
         const upcomingItemsTEXT = await upcomingItems.text()
         upcomingGrid.innerHTML = upcomingItemsTEXT
         const upcomingBorderGrid = upcomingGrid.querySelector(".upcoming-border-grid")
         const upcomingItemsGrid = upcomingBorderGrid.querySelector(".upcoming-item-grid")
-        const {data:{products}} = await axios.get('/api/v1/products')
-
+        
         const upcomingProducts = products.filter(item => item.upcoming).map((item)=>{
             const {brand,price,images} = item
             return `<div class="product-item-upcoming">
-                <img class="main_image" src = ${images[0]}>
-                <div class="item-favourite-name-box">
-                    <h2>${brand}</h2>  
-                    <div class="item-price-favourite-box">
-                        <p id="full-price">${price}$</p>
-
-                    </div>          
-                </div> 
-                </div>`
+            <img class="main_image" src = ${images[0]}>
+            <div class="item-favourite-name-box">
+            <h2>${brand}</h2>  
+            <div class="item-price-favourite-box">
+            <p id="full-price">${price}$</p>
+            
+            </div>          
+            </div> 
+            </div>`
         }).join('')
-
+        
         upcomingItemsGrid.innerHTML = upcomingProducts
-
-
+        
+        
         const upcomingProductsTimer = upcomingGrid.querySelectorAll('.upcoming-item-grid .product-item-upcoming')
         function UpcomingItemsTimer(){
-
+            
             upcomingProductsTimer.forEach(item => {
                 const productName = item.querySelector('h2').innerHTML
                 const productIndex = products.findIndex(product => product.name === productName)
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
                 const hours = Math.floor((remaining % (1000 * 60 * 60 *24)) / (1000 * 60 * 60))
                 const minutes = Math.floor((remaining % (1000 * 60 * 60 )) / (1000 * 60))
                 const seconds = Math.floor((remaining % (1000 * 60 ))/ 1000)
-
+                
                 let timeLeftElement = item.querySelector('.upcoming_item_timer')
                 if(timeLeftElement)
                     timeLeftElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`
@@ -81,15 +81,15 @@ document.addEventListener('DOMContentLoaded', async()=>{
                     timeLeftElement.classList.add('upcoming_item_timer');
                     item.appendChild(timeLeftElement)
                     timeLeftElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`
-
+                    
                 }
             })
         }
-
+        
         UpcomingItemsTimer()
         setInterval(UpcomingItemsTimer, 1000)
-
-       
+        
+        
         const upcoming_scroll_left = document.querySelector('.previous')
         const upcoming_scroll_right = document.querySelector('.upper')
         const upcomingGridScroll = document.querySelector('.upcoming-item-grid')
@@ -107,76 +107,76 @@ document.addEventListener('DOMContentLoaded', async()=>{
         } else {
             upcoming_scroll_left.style.display = 'block';
         }
-
+        
     }
     ////////////////////////////////////////////////////////////////////////////
-
-
+    
+    
     // SALE&RECOMMENDED ITEMS GRID//////////////////////////////////////////////
-    const sales_container = async()=>{
+    const sales_container = async(products)=>{
         const sales = await fetch('/Main/HTML_routes/noutati_grid.html')
         const salesTEXT = await sales.text()
         noutatiGrid.innerHTML = salesTEXT
-        const {data:{products}} = await axios.get("/api/v1/products")
+        //const {data:{products}} = await axios.get("/api/v1/products")
         const pageItemsCounter = 12
         
         const salePercent = 10
-
+        
         const noutatiProducts = products.filter(item => !item.sale).slice(0,pageItemsCounter).map((item)=>{
             const {name,brand,price,images} = item
             return `<div class="product-item" data-images='${JSON.stringify(images)}'>
             <img class="main_image" src = ${images[0]}>
             <div class="item-favourite-name-box">
-                <p>${brand}</p>
-                <h2>${name}</h2>  
-                <div class="item-price-favourite-box">
-                    <p id="full-price">${price}$</p>
-                    <button class="favourite-item">
-                        <img src="../MainMenu/white_star.png" alt="favourite">
-                    </button>
-                </div>          
+            <p>${brand}</p>
+            <h2>${name}</h2>  
+            <div class="item-price-favourite-box">
+            <p id="full-price">${price}$</p>
+            <button class="favourite-item">
+            <img src="../MainMenu/white_star.png" alt="favourite">
+            </button>
+            </div>          
             </div> 
             </div>`
         }).join('')
         const noutatiItemGrid = noutatiGrid.querySelector(".noutati-product-grid .items-grid")
         noutatiItemGrid.innerHTML = noutatiProducts
-
-
+        
+        
         const salesProducts = products.filter(item => item.sale).slice(0,pageItemsCounter).map((item) => {
             const {name,brand,price,images} = item
             return `<div class="product-item" data-images='${JSON.stringify(images)}'>
             <img class="main_image" src = ${images[0]}>
             <div class="item-favourite-name-box">
-                <p>${brand}</p>
-                <h2>${name}</h2>  
-                <div class="item-price-favourite-box">
-                    <p id="full-price">${price}$</p>
-                    <p id="sale-price">${(price-(price*(1/salePercent))).toFixed(1)}$</p>
-                    <button class="favourite-item">
-                        <img src="../MainMenu/white_star.png" alt="favourite">
-                    </button>
-                </div>          
+            <p>${brand}</p>
+            <h2>${name}</h2>  
+            <div class="item-price-favourite-box">
+            <p id="full-price">${price}$</p>
+            <p id="sale-price">${(price-(price*(1/salePercent))).toFixed(1)}$</p>
+            <button class="favourite-item">
+            <img src="../MainMenu/white_star.png" alt="favourite">
+            </button>
+            </div>          
             </div> 
             </div>`
-            }).join('')
+        }).join('')
         
         const salesItemGrid = noutatiGrid.querySelector(".sales-product-grid .items-grid")
         salesItemGrid.innerHTML = salesProducts
-
+        
         const addHoverEffect = () => {
             const productItems = document.querySelectorAll('.product-item');
-        
+            
             productItems.forEach((item) => {
                 const imageElement = item.querySelector('.main_image');
                 const images = JSON.parse(item.getAttribute('data-images')); // Parse the images array from the data attribute
-        
+                
                 // On hover, change to the second image if available
                 imageElement.addEventListener('mouseenter', () => {
                     if (images && images.length > 1) {
                         imageElement.src = images[1]; // Change to the second image
                     }
                 });
-        
+                
                 // On mouse leave, revert to the first image
                 imageElement.addEventListener('mouseleave', () => {
                     if (images && images.length > 0) {
@@ -185,15 +185,16 @@ document.addEventListener('DOMContentLoaded', async()=>{
                 });
             });
         };
-
+        
         addHoverEffect()
     }
-
+    
+    const {data:{products}} = await axios.get('/api/v1/products')
     
     await banner_slider()
     await brands_grid()
-    await sales_container()
-    await upcoming_grid_function()
+    await sales_container(products)
+    await upcoming_grid_function(products)
     await news_container()
 })
 
